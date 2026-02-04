@@ -1,19 +1,31 @@
 return {
   {
     "nvim-treesitter/nvim-treesitter",
+    branch = "master",
     dependencies = {
-      { "windwp/nvim-ts-autotag" },
+      "windwp/nvim-ts-autotag",
+      "nvim-treesitter/nvim-treesitter-textobjects",
     },
     build = ":TSUpdate",
     config = function()
       require("nvim-treesitter.configs").setup({
-        ensure_installed = { "lua", "python", "java", "bash", "vim", "json", "html", "css", "cpp", "xml" },
-        highlight = { enable = true },
-        refactor = {
-          highlight_definitions = { enable = true },
-          highlight_current_scope = { enable = true },
+        ensure_installed = {
+          "lua",
+          "python",
+          "java",
+          "bash",
+          "vim",
+          "vimdoc",
+          "json",
+          "html",
+          "css",
+          "cpp",
+          "xml",
         },
+
+        highlight = { enable = true },
         indent = { enable = true },
+
         incremental_selection = {
           enable = true,
           keymaps = {
@@ -23,34 +35,15 @@ return {
             node_decremental = "grm",
           },
         },
-      })
-      require('nvim-ts-autotag').setup({
-        opts = {
-          -- Defaults
-          enable_close = true, -- Auto close tags
-          enable_rename = true, -- Auto rename pairs of tags
-          enable_close_on_slash = false -- Auto close on trailing </
+
+        autotag = {
+          enable = true,
         },
-        -- Also override individual filetype configs, these take priority.
-        -- Empty by default, useful if one of the "opts" global settings
-        -- doesn't work well in a specific filetype
-        per_filetype = {
-          -- ["html"] = {
-          --   enable_close = false
-          -- }
-        }
-      })
-    end,
-  },
-  {
-    "nvim-treesitter/nvim-treesitter-textobjects",
-    dependencies = { "nvim-treesitter/nvim-treesitter" },
-    config = function()
-      require("nvim-treesitter.configs").setup({
+
         textobjects = {
           select = {
             enable = true,
-            lookahead = true, -- jumps forward automatically like targets.vim
+            lookahead = true,
             keymaps = {
               ["af"] = "@function.outer",
               ["if"] = "@function.inner",
@@ -60,7 +53,7 @@ return {
           },
           move = {
             enable = true,
-            set_jumps = true, -- record jumps in jumplist
+            set_jumps = true,
             goto_next_start = {
               ["]m"] = "@function.outer",
               ["]]"] = "@class.outer",
@@ -72,6 +65,6 @@ return {
           },
         },
       })
-    end
+    end,
   },
 }
